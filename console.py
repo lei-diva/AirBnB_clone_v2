@@ -32,22 +32,42 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program at end of file"""
         return True
 
+    @staticmethod
+    def linesep(param):
+        kv = param.split('=')
+        print(kv)
+        if not (len(kv) == 2):
+            return None
+        kv[1] = kv[1].replace("_", " ")
+        kv[1] = eval(kv[1])
+        return(kv)
+
     def do_create(self, line):
         """Creates a new instance of BaseModel, saves it
         Exceptions:
             SyntaxError: when there is no args given
-            NameError: when there is no object taht has the name
+            NameError: when there is no object that has the name
         """
+
         try:
             if not line:
                 raise SyntaxError()
+
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
+            i = 1
+
+            while i < len(my_list):
+                kval = HBNBCommand.linesep(my_list[i])
+                if (kval):
+                    setattr(obj, kval[0], kval[1])
+                    obj.save()
+                i += 1
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
-        except NameError:
+        except (NameError, TypeError):
             print("** class doesn't exist **")
 
     def do_show(self, line):
