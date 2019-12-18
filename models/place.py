@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel
+
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -22,6 +23,7 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+    """
     __tablename__ = 'places'
     city_id = Column(String(60), nullable=False, ForeignKey('cities.id'))
     user_id = Column(String(60), nullable=False, ForeignKey('users.id'))
@@ -33,7 +35,7 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-
+    """
     city_id = ""
     user_id = ""
     name = ""
@@ -45,3 +47,10 @@ class Place(BaseModel, Base):
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
+
+    """
+    user = relationship("User", backref=backref("Place",
+                                                cascade=("all, delete-orphan"))
+    cities = relationship("City", backref=backref("Place",
+                                                  cascade=("all,delete-orphan"))
+    """
