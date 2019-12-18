@@ -6,7 +6,13 @@ from models.city import City
 from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
 import os
+from sqlalchemy import Table, Column, Integer, ForeignKey
 
+
+place_amenity = Table('association', Base.metadata,
+    Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+    Column('amenities_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
+)
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -34,9 +40,11 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    amenity_ids = []
 
     if os.environ['HBNB_TYPE_STORAGE'] == 'db':
         reviews = relationship("Review", backref="place", cascade="delete")
+        amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
     else:
         @property
         def reviews(self):
@@ -44,3 +52,20 @@ class Place(BaseModel, Base):
             for obj in models.storage.all(Review):
                 if obj.place_id == self.id:
                     rev_list.append(obj)
+
+        @amenities.setter
+        def amenities(self, obj=None):
+            if not obj is None and type(obj) is Amenity:
+                self.amenity_ids.append(obj.id)
+
+        @property
+        def amenities(self):
+            ins_list = []
+            for obj in models.storage.all(Amenity):
+                if obj.id in self.amenity_ids:
+                    ins_list.append(obj)
+            return ins_list
+
+
+
+
