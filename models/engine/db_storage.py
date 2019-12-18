@@ -48,7 +48,7 @@ class DBStorage:
         if cls is not None:
             t = self.__session.query(cls).all()
         else:
-            classes = [State, City, User, Place]
+            classes = [State, City, User, Place, Review]
             for cl in classes:
                 t.append(self.__session.query(cl).all())
 
