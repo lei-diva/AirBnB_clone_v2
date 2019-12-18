@@ -35,7 +35,6 @@ class HBNBCommand(cmd.Cmd):
     @staticmethod
     def linesep(param):
         kv = param.split('=')
-        print(kv)
         if not (len(kv) == 2):
             return None
         kv[1] = kv[1].replace("_", " ")
@@ -61,7 +60,6 @@ class HBNBCommand(cmd.Cmd):
                 kval = HBNBCommand.linesep(my_list[i])
                 if (kval):
                     setattr(obj, kval[0], kval[1])
-                    obj.save()
                 i += 1
             obj.save()
             print("{}".format(obj.id))
