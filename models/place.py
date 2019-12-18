@@ -32,7 +32,3 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
 
-    user = relationship("User", backref=backref("Place",
-                                                cascade=("all, delete-orphan"))
-    cities = relationship("City", backref=backref("Place",
-                                                  cascade=("all,delete-orphan"))
