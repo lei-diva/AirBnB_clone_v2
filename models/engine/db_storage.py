@@ -40,9 +40,12 @@ class DBStorage:
             drop_all(self.__engine)
 
     def all(self, cls=None):
+        """
+        Returns a dictionary
+        """
         my_dict = {}
         t = []
-        if not cls is None:
+        if cls is not None:
             t = self.__session.query(cls).all()
         else:
             classes = [State, City]
@@ -57,16 +60,28 @@ class DBStorage:
         return my_dict
 
     def new(self, obj):
+        """
+        Add object to current db session
+        """
         self.__session.add(obj)
 
     def save(self):
+        """
+        Commit object to current db session
+        """
         self.__session.commit()
 
     def delete(self, obj=None):
-        if not obj is None:
+        """
+        Delete object to current db session
+        """
+        if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
+        """
+        Reload objects to current db session
+        """
         Base.metadata.create_all(self.__engine)
         session_fact = sessionmaker(bind=self.__engine)
         Session = scoped_session(session_fact)
