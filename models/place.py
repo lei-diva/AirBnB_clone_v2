@@ -9,7 +9,7 @@ import os
 from sqlalchemy import Table, Column, Integer, ForeignKey
 
 
-place_amenity = Table('association', Base.metadata,
+place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
                              ForeignKey('places.id'),
                              primary_key=True, nullable=False),
