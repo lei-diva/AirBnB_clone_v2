@@ -5,6 +5,7 @@ from models.user import User
 from models.city import City
 from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
+import os
 
 
 class Place(BaseModel, Base):
@@ -33,3 +34,13 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
+    if os.environ['HBNB_TYPE_STORAGE'] == 'db':
+        reviews = relationship("Review", backref="place", cascade="delete")
+    else:
+        @property
+        def reviews(self):
+            rev_list = []
+            for obj in models.storage.all(Review):
+                if obj.place_id == self.id:
+                    rev_list.append(obj)
