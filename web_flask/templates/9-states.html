@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        <H1>States</H1>
+
+                {% if id == None %}
+                <UL>
+                        {% for s in states |sort(attribute='name') %}
+                            <LI>{{ s.id }}: <B>{{ s.name }}</B>
+                        {% endfor %}
+                </UL>
+                {% else %}
+                    {% for s in states |sort(attribute='name') %}
+                        {% if s.id == id %}
+                        <H1>State: {{ s.name }}</H1>
+                        <H3>Cities:</H3>
+                        <UL>
+                            {% for c in s.cities |sort(attribute='name')%}
+                                <LI>{{ c.id }}: <B>{{ c.name }}</B></LI>
+                            {% endfor %}
+                        </UL>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+
+
+    </BODY>
+</HTML>
