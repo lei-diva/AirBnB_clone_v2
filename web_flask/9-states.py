@@ -11,7 +11,14 @@ app = Flask(__name__)
 @app.route('/states/<id>', strict_slashes=False)
 def state(id=None):
     s = storage.all(State).values()
-    return render_template("9-states.html", states=s, id=id)
+    flag = 0
+    if id is None:
+        flag = 1
+    else:
+        for st in s:
+            if id == st.id:
+                flag = 1
+    return render_template("9-states.html", states=s, id=id, flag=flag)
 
 
 @app.teardown_appcontext
