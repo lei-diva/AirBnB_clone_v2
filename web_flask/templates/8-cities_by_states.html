@@ -7,7 +7,7 @@
         <H1>States</H1>
         <UL>
                 {% for s in states |sort(attribute='name')%}
-                <LI>{{ s.id }}: <B>{{ s.name }}</B></LI>
+                <LI>{{ s.id }}: <B>{{ s.name }}</B>
                     <UL>
                     {% for c in s.cities |sort(attribute='name')%}
                         <LI>{{ c.id }}: <B>{{ c.name }}</B></LI>
