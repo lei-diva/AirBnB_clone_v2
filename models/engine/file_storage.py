@@ -28,7 +28,7 @@ class FileStorage:
         copy_dictionary = {}
         if cls is not None:
             for key, value in self.__objects.items():
-                if self.__class__.__name__ == cls:
+                if value.__class__ == cls:
                     copy_dictionary[key] = value
             return copy_dictionary
         else:
